@@ -3,21 +3,40 @@
 // in the html.
 $(document).ready(function () {
 
+  getUserData()
+
+  
+  var userText = ""
+  var timeID = ""
+  
   function saveText(save) {
-    save.prev().val()
+    userText = save.prev().val()
+    console.log(userText.trim())
   }
+
+
 
   $('.saveBtn').on('click', function(event) {
       event.preventDefault();
-      saveText($(this))
-      console.log("test")
-      console.log($(this).parent().attr('id'))
-      console.log($(this).prev())
 
+      var timeID = ($(this).parent().attr('id'))
+      var userText = $(this).prev().val().trim()
 
+      localStorage.setItem(timeID, JSON.stringify(userText))
 
   })
 
+  function getUserData() {
+
+    var keys = Object.keys(localStorage)
+    console.log(keys)
+
+
+    // var storedData = JSON.parse(localStorage.getItem(""));
+    // if (storedData !== null) {
+    //     userData = storedData;
+    // }
+}
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
