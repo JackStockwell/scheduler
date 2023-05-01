@@ -21,8 +21,8 @@ $(document).ready(function () {
     localStorage.setItem(time, JSON.stringify(text)); 
   }
 
-  function getUserData() {
-    
+  function getUserData(localKey) {
+    return JSON.parse(localStorage.getItem(localKey));
   }
 
 
@@ -34,7 +34,6 @@ $(document).ready(function () {
 
       saveText(timeID, userText);
 
-
       localStorage.setItem(timeID, JSON.stringify(userText))
       console.log();
   })
@@ -43,14 +42,13 @@ $(document).ready(function () {
 
     $('div').each(function (index, value) {
       var currentID = $('div').get(index).id;
-
-
       
       for (i = 0; i < localStorage.length; i++) {
         if (currentID === localStorage.key(i)) {
           var textArea = this.children[1];
-          textArea.value = 
+          var localKey = localStorage.key(i)
 
+          textArea.value = getUserData(localKey)
 
           } 
 
@@ -81,4 +79,10 @@ $(document).ready(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
   renderUserData();
+
+  function date() {
+    var currentDay = dayjs().format('dddd, DD of MMM YYYY')
+    $('#currentDay').text(currentDay)
+  }
+  date();
 });
