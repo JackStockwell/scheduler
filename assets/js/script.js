@@ -3,15 +3,24 @@
 // in the html.
 $(document).ready(function () {
 
-  getUserData()
 
+
+  // function renderData() {
+    
+    
+
+  //   $('div').each(function( index ) {
+  //     if (key)
+    
+  //   }); 
   
+
+
   var userText = ""
   var timeID = ""
   
-  function saveText(save) {
-    userText = save.prev().val()
-    console.log(userText.trim())
+  function saveText(time, text) {
+    localStorage.setItem(time, JSON.stringify(text)); 
   }
 
 
@@ -19,8 +28,11 @@ $(document).ready(function () {
   $('.saveBtn').on('click', function(event) {
       event.preventDefault();
 
-      var timeID = ($(this).parent().attr('id'))
-      var userText = $(this).prev().val().trim()
+      var timeID = ($(this).parent().attr('id'));
+      var userText = $(this).prev().val().trim();
+
+      saveText(timeID, userText);
+
 
       localStorage.setItem(timeID, JSON.stringify(userText))
 
@@ -28,15 +40,25 @@ $(document).ready(function () {
 
   function getUserData() {
 
-    var keys = Object.keys(localStorage)
-    console.log(keys)
+    // var hourList = localStorage.getItem(localStorage.key(0))
+    // console.log(hourList)
+    // console.log(localStorage.key[0]);
+
+    for (i = 0; i < localStorage.length; i++)
+      var key = localStorage.key(i)
+      console.log(key)
+      // var value = localStorage.getItem('hour-9')
+      // console.log(value)
+
+  }
+    // var keys = Object.keys(localStorage)
+    // console.log(keys)
 
 
     // var storedData = JSON.parse(localStorage.getItem(""));
     // if (storedData !== null) {
     //     userData = storedData;
     // }
-}
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -57,4 +79,6 @@ $(document).ready(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+  getUserData();
+
 });
