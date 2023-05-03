@@ -23,6 +23,31 @@ $(document).ready(function () {
     return JSON.parse(localStorage.getItem(localKey));
   }
 
+  function classTime() {
+    var currTime = dayjs().format('HH')
+
+
+
+    console.log(currTime)
+
+    $('.time-block').each(function(i, v) {
+      var divEl = ($(this))
+      var timeEl = ($(this).attr('data-time'))
+      
+      console.log(timeEl)
+      
+      if (currTime > timeEl) {
+        console.log("early")
+        divEl.attr('class', 'row time-block past')
+      } else if (currTime === timeEl) {
+        console.log("otime")
+        divEl.attr('class', 'row time-block present') 
+      } else {
+        divEl.attr('class', 'row time-block future')
+      }
+    });
+  }
+
 
   $('.saveBtn').on('click', function(event) {
       event.preventDefault();
@@ -30,13 +55,8 @@ $(document).ready(function () {
       var classID = ($(this).parent().attr('id'));
       // Grabs the day it was saved in the format below.
       var dayID = dayjs().format('DD/MM/YY');
-      // Grabs the hour it was saved into from div.
-      var hourID = ($(this).parent().children('.hour').text())
-      console.log(hourID)
-      
-
       // Saved as both class ID with a date seperately. This allows it be called upon using either the ID and the date.
-      var userKey = (classID + " " + dayID + " " + hourID)
+      var userKey = (classID + " " + dayID)
       console.log(userKey)
       var userText = $(this).prev().val().trim();
 
@@ -46,18 +66,9 @@ $(document).ready(function () {
       console.log();
   })
 
-
-  function classTime(keyTime) {
-    var currTime = dayjs().format('DA')
-    if (currTime < keyTime) {
-      console.log("early")
-    } else if (currTime === keyTime)
-      console.log("otime")
-  }
-
   function renderUserData() {
 
-    $('div').each(function (index, value) {
+    $('div').each(function (index) {
       var currentID = $('div').get(index).id;
       // Loops through the local storage, checks if the current ID is equal to a localstorage key.
       for (i = 0; i < localStorage.length; i++) {
@@ -67,7 +78,6 @@ $(document).ready(function () {
           var textArea = this.children[1];
           var localKey = localStorage.key(i);
           textArea.value = getUserData(localKey);
-          classTime(keyValue[2])
         }
       }
     });
@@ -94,7 +104,9 @@ $(document).ready(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
   renderUserData();
+  classTime()
 
 
   function date() {
