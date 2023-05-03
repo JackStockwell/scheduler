@@ -14,9 +14,7 @@ $(document).ready(function () {
     
   //   }); 
   
-
-  var userData = []
-  
+ 
   function saveText(time, text) {
     localStorage.setItem(time, JSON.stringify(text)); 
   }
@@ -29,36 +27,45 @@ $(document).ready(function () {
   $('.saveBtn').on('click', function(event) {
       event.preventDefault();
 
-      var timeID = ($(this).parent().attr('id'));
+      var classID = ($(this).parent().attr('id'));
+      var dayID = dayjs().format('DD/MM/YY')
+      
+
+      // Saved as both class ID with a date seperately. This allows it be called upon using either the ID and the date.
+      var userKey = (classID + " " + dayID)
+      console.log(userKey)
       var userText = $(this).prev().val().trim();
 
-      saveText(timeID, userText);
+      saveText(userKey, userText);
 
-      localStorage.setItem(timeID, JSON.stringify(userText))
+
       console.log();
   })
+
+
+  function classTime() {
+    var currTime = dayjs().isBefore(dayjs())
+  }
 
   function renderUserData() {
 
     $('div').each(function (index, value) {
       var currentID = $('div').get(index).id;
-      
+      // Loops through the local storage, checks if the current ID is equal to a localstorage key.
       for (i = 0; i < localStorage.length; i++) {
-        if (currentID === localStorage.key(i)) {
+        
+        var keyValue = localStorage.key(i).split(' ')
+        if (currentID === keyValue[0] && dayjs().format('DD/MM/YY')) {
           var textArea = this.children[1];
           var localKey = localStorage.key(i)
-
           textArea.value = getUserData(localKey)
-
-          } 
-
-    }
-    
-  })
-
+        } 
+      }
+    });
   }
 
-
+  
+  
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. 
@@ -79,6 +86,7 @@ $(document).ready(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
   renderUserData();
+
 
   function date() {
     var currentDay = dayjs().format('dddd, DD of MMM YYYY')
