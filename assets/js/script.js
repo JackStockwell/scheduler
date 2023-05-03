@@ -26,13 +26,17 @@ $(document).ready(function () {
 
   $('.saveBtn').on('click', function(event) {
       event.preventDefault();
-
+      // Grabs the ID from the HTML Element.
       var classID = ($(this).parent().attr('id'));
-      var dayID = dayjs().format('DD/MM/YY')
+      // Grabs the day it was saved in the format below.
+      var dayID = dayjs().format('DD/MM/YY');
+      // Grabs the hour it was saved into from div.
+      var hourID = ($(this).parent().children('.hour').text())
+      console.log(hourID)
       
 
       // Saved as both class ID with a date seperately. This allows it be called upon using either the ID and the date.
-      var userKey = (classID + " " + dayID)
+      var userKey = (classID + " " + dayID + " " + hourID)
       console.log(userKey)
       var userText = $(this).prev().val().trim();
 
@@ -43,8 +47,12 @@ $(document).ready(function () {
   })
 
 
-  function classTime() {
-    var currTime = dayjs().isBefore(dayjs())
+  function classTime(keyTime) {
+    var currTime = dayjs().format('DA')
+    if (currTime < keyTime) {
+      console.log("early")
+    } else if (currTime === keyTime)
+      console.log("otime")
   }
 
   function renderUserData() {
@@ -57,9 +65,10 @@ $(document).ready(function () {
         var keyValue = localStorage.key(i).split(' ')
         if (currentID === keyValue[0] && dayjs().format('DD/MM/YY')) {
           var textArea = this.children[1];
-          var localKey = localStorage.key(i)
-          textArea.value = getUserData(localKey)
-        } 
+          var localKey = localStorage.key(i);
+          textArea.value = getUserData(localKey);
+          classTime(keyValue[2])
+        }
       }
     });
   }
