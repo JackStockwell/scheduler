@@ -22,19 +22,14 @@ $(document).ready(function () {
   function getUserData(localKey) {
     return JSON.parse(localStorage.getItem(localKey));
   }
-
+  // Will set the Class depending if it is past, present or future.
   function classTime() {
+
     var currTime = dayjs().format('HH')
+    var divEl = ($(this))
+    var timeEl = ($(this).attr('data-time'))
 
-
-
-    console.log(currTime)
-
-    $('.time-block').each(function(i, v) {
-      var divEl = ($(this))
-      var timeEl = ($(this).attr('data-time'))
-      
-      console.log(timeEl)
+    $('.time-block').each(function() {
       
       if (currTime > timeEl) {
         console.log("early")
