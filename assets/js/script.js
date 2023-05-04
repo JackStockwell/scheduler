@@ -3,44 +3,39 @@
 // in the html.
 $(document).ready(function () {
 
-
-
-  // function renderData() {
-    
-    
-
-  //   $('div').each(function( index ) {
-  //     if (key)
-    
-  //   }); 
-  
- 
+  // Saves the time and text parsed into it.
   function saveText(time, text) {
     localStorage.setItem(time, JSON.stringify(text)); 
   }
-
+  // Grabs the localstorage dat
   function getUserData(localKey) {
     return JSON.parse(localStorage.getItem(localKey));
   }
   // Will set the Class depending if it is past, present or future.
   function classTime() {
 
+    var timeDiv = $('.time-block')
     var currTime = dayjs().format('HH')
-    var divEl = ($(this))
-    var timeEl = ($(this).attr('data-time'))
 
-    $('.time-block').each(function() {
-      
+    console.log(timeDiv)
+
+
+    for (var i = 0; timeDiv.length; i++) {
+      var timeEl = timeDiv[i].attributes[2].value
+
+      // timeDiv = timeDiv[i]
       if (currTime > timeEl) {
+        console.log(timeDiv)
         console.log("early")
-        divEl.attr('class', 'row time-block past')
+        timeDiv.attr('class', 'row time-block past')
       } else if (currTime === timeEl) {
         console.log("otime")
-        divEl.attr('class', 'row time-block present') 
+        timeDiv.attr('class', 'row time-block present') 
       } else {
-        divEl.attr('class', 'row time-block future')
+        timeDiv.attr('class', 'row time-block future')
+        console.log("dwd")
       }
-    });
+    }
   }
 
 
@@ -102,7 +97,6 @@ $(document).ready(function () {
 
   renderUserData();
   classTime()
-
 
   function date() {
     var currentDay = dayjs().format('dddd, DD of MMM YYYY')
