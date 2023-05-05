@@ -1,29 +1,44 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 $(document).ready(function () {
 
   var timeBlockDiv = $('.time-block')
 
-  // Saves the time and text parsed into it.
-  function saveText(time, text) {
-    localStorage.setItem(time, JSON.stringify(text)); 
+  // Saves the key and text parsed into it.
+  function saveText(key, text) {
+    localStorage.setItem(key, JSON.stringify(text)); 
   }
   // Grabs the localstorage data
   function getUserData(localKey) {
     return JSON.parse(localStorage.getItem(localKey));
   }
-
   
+  // Click event listener on save buttons. Will run once the button is pressed.
+  $('.saveBtn').on('click', function(event) {
+    event.preventDefault();
+    // Grabs the ID from the HTML Element.
+    var classID = ($(this).parent().attr('id'));
+    // Grabs the day it was saved in the format below.
+    var dayID = dayjs().format('DD/MM/YY');
+    // Saved as both class ID with a date seperately. This allows it be called upon using either the ID and the date.
+    var userKey = (classID + " " + dayID)
+    // Takes the value from the textinput area.
+    var userText = $(this).prev().val().trim();
+    // Parses the data into the saveText function.
+    saveText(userKey, userText);
+})
+
+  // Renders the userData from localstorage.
   function renderUserData() {
-    // Calls upon each div
+    // Calls upon each timeblock div.
     timeBlockDiv.each(function (index) {
+      // Grabs the id of each timeblock div to use for later.
       var currentID = timeBlockDiv.get(index).id;
-      // Loops through the local storage, checks if the current ID is equal to a localstorage key.
+      // A loop that will check if a key in localStorage matches a div container and is the correct date.
       for (i = 0; i < localStorage.length; i++) {
-       
+        // Splits the key into two parts. The hour ID and day are now seperate.
         var keyValue = localStorage.key(i).split(' ')
-        if (currentID === keyValue[0] && dayjs().format('DD/MM/YY')) {
+        // Checks if the current key matches the current div AND matches current day.
+        if (currentID === keyValue[0] && dayjs().format('DD/MM/YY') === keyValue[1]) {
+          // Renders the localstroage data if true.
           var textArea = this.children[1];
           var localKey = localStorage.key(i);
           textArea.value = getUserData(localKey);
@@ -34,9 +49,9 @@ $(document).ready(function () {
 
   // Will set the Class depending if it is past, present or future.
   function classTime() {
-
+    // Current hour in 2 digits.
     var currTime = dayjs().format('HH')
-
+    // Loops through all divs, compares the data-time value with the current hour to determine if it past, present or future.
     for (var i = 0; i < timeBlockDiv.length; i++) {
      var timeData = $(timeBlockDiv[i]).attr('data-time')
      var currDiv = $(timeBlockDiv[i])
@@ -50,27 +65,14 @@ $(document).ready(function () {
     }
   }
 
-  $('.saveBtn').on('click', function(event) {
-      event.preventDefault();
-      $('.alert').show()
-      // Grabs the ID from the HTML Element.
-      var classID = ($(this).parent().attr('id'));
-      // Grabs the day it was saved in the format below.
-      var dayID = dayjs().format('DD/MM/YY');
-      // Saved as both class ID with a date seperately. This allows it be called upon using either the ID and the date.
-      var userKey = (classID + " " + dayID)
-
-      var userText = $(this).prev().val().trim();
-
-      saveText(userKey, userText);
-  })
-
-  renderUserData();
-  classTime()
-
+  // Gets the current day and renders it in the header.
   function date() {
     var currentDay = dayjs().format('dddd, DD of MMM YYYY')
     $('#currentDay').text(currentDay)
   }
+
+  // Calls upon the functions to renderuserdata, class time and render the date in the header..
+  renderUserData();
+  classTime()
   date();
 });
