@@ -9,8 +9,9 @@ $(document).ready(function () {
     changeYear: true,
     onSelect: function (dateText, inst) {
       date(dateText);
-      selectDate = $("#datepicker").datepicker('option', 'dateFormat', 'dd/mm/yy')
-      console.log(selectDate)
+      var dateVal = $("#datepicker").datepicker('option', 'dateFormat', 'dd/mm/y')
+      selectDate = dateVal[0].value
+      renderUserData()
     }
 
   });
@@ -50,7 +51,7 @@ $(document).ready(function () {
         // Splits the key into two parts. The hour ID and day are now seperate.
         var keyValue = localStorage.key(i).split(' ')
         // Checks if the current key matches the current div AND matches current day.
-        if (currentID === keyValue[0] && dayjs().format('DD/MM/YY') === keyValue[1]) {
+        if (currentID === keyValue[0] && selectDate === keyValue[1]) {
           // Renders the localstroage data if true.
           var textArea = this.children[1];
           var localKey = localStorage.key(i);
@@ -86,17 +87,23 @@ $(document).ready(function () {
     } else {
       currentDay = dayjs(day).format('dddd, DD of MMM YYYY')
     }
-      console.log(currentDay)
+      console.log(selectDate)
     $('#currentDay').text(currentDay)
   }
+
+  // Event listen for clear local storage button, remove all items from local storage.
   $('#clear-storage').on('click', function(event) {
     event.preventDefault();
-    localStorage.clear()
+    if (confirm("Are you sure you want to remove all locally saved data? (Note: This CANNOT be undone")) {
+      localStorage.clear
+    } else {
+      return;
+    }
   })
-
 
   // Calls upon the functions to renderuserdata, class time and render the date in the header..
   renderUserData();
   classTime()
   date()
+
 });
