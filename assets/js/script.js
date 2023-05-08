@@ -6,15 +6,15 @@ $(document).ready(function () {
 
   // Date-picker
   $( "#datepicker" ).datepicker({
-    dateFormat: 'dd/mm/y',
+    dateFormat: 'dd/M/y',
     changeMonth: true,
     changeYear: true,
     // Activates the function upon date selection.
     onSelect: function (dateText, inst) {
       date(dateText);
-      var dateVal = $("#datepicker").datepicker('option', 'dateFormat', 'dd/M/y')
-      selectDate = dateVal[0].value
+      selectDate = dateText
       renderUserData()
+      classTime()
     }
 
   });
@@ -74,7 +74,7 @@ $(document).ready(function () {
 
   // Will set the Class depending if it is past, present or future.
   function classTime() {
-    // Current hour in 2 digits.
+     // Current hour in 2 digits.
     var currTime = dayjs().format('HH')
     // Loops through all divs, compares the data-time value with the current hour to determine if it past, present or future.
     for (var i = 0; i < timeBlockDiv.length; i++) {
@@ -94,12 +94,13 @@ $(document).ready(function () {
   function date(day) {
     var currentDay = ""
     if (day === null || day === undefined) {
-      //
+      // Formats the date if nothing is parsed.
       currentDay = dayjs().format('dddd, DD of MMM YYYY')
     } else {
+      // Formats the parsed day
       currentDay = dayjs(day).format('dddd, DD of MMM YYYY')
     }
-      console.log(selectDate)
+    // Displays the formated day in the DOM
     $('#currentDay').text(currentDay)
   }
 
