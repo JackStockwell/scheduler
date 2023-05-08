@@ -12,7 +12,9 @@ I learned a lot about jQuery and API implementation. I have also learned how API
 
 ## Features
 
+- Dynamically changes HTML classes based on time.
 
+- Ability to change the date, allowing you to plan ahead and review previous days.
 
 ## Usage
 

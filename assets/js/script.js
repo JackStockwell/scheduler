@@ -1,15 +1,18 @@
 $(document).ready(function () {
 
   var timeBlockDiv = $('.time-block')
-  var selectDate = dayjs().format('DD/MM/YY');
+  // Default load date is today.
+  var selectDate = dayjs().format('DD/MMM/YY');
 
+  // Date-picker
   $( "#datepicker" ).datepicker({
-    dateFormat: 'DD, dd M yy',
+    dateFormat: 'dd/mm/y',
     changeMonth: true,
     changeYear: true,
+    // Activates the function upon date selection.
     onSelect: function (dateText, inst) {
       date(dateText);
-      var dateVal = $("#datepicker").datepicker('option', 'dateFormat', 'dd/mm/y')
+      var dateVal = $("#datepicker").datepicker('option', 'dateFormat', 'dd/M/y')
       selectDate = dateVal[0].value
       renderUserData()
     }
@@ -42,6 +45,8 @@ $(document).ready(function () {
 
   // Renders the userData from localstorage.
   function renderUserData() {
+    // Clears previous userdata
+    clearPrev()
     // Calls upon each timeblock div.
     timeBlockDiv.each(function (index) {
       // Grabs the id of each timeblock div to use for later.
@@ -56,9 +61,15 @@ $(document).ready(function () {
           var textArea = this.children[1];
           var localKey = localStorage.key(i);
           textArea.value = getUserData(localKey);
-        }
+        } 
       }
     });
+  }
+  // Function to clear previous textareas after every date change.
+  function clearPrev() {
+    $('.description').each(function () {
+      this.value = " "
+    })
   }
 
   // Will set the Class depending if it is past, present or future.
@@ -83,6 +94,7 @@ $(document).ready(function () {
   function date(day) {
     var currentDay = ""
     if (day === null || day === undefined) {
+      //
       currentDay = dayjs().format('dddd, DD of MMM YYYY')
     } else {
       currentDay = dayjs(day).format('dddd, DD of MMM YYYY')
@@ -101,7 +113,7 @@ $(document).ready(function () {
     }
   })
 
-  // Calls upon the functions to renderuserdata, class time and render the date in the header..
+  // Calls upon the functions to renderuserdata, class time and render the date in the header.
   renderUserData();
   classTime()
   date()
