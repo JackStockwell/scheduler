@@ -18,9 +18,13 @@ To use the scheduler, head to [here](https://jackstockwell.github.io/scheduler/)
 
 [jQuery API documentation](https://api.jquery.com/) - jQuery API documentation used throughout my script.
 
-[Day.js](https://day.js.org/docs/en/display/format) - Day.js documentation.
+[Day.js API](https://day.js.org/docs/en/display/format) - Day.js documentation.
+
+[Bootstrap API](https://getbootstrap.com/docs/5.3/getting-started/introduction/) - Bootstrap API Documentation
 
 [MDN on JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Used to deepen my JavaScript knowledge.
+
+
 
 ## Future Development
 

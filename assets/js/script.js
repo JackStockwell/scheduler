@@ -89,10 +89,11 @@ $(document).ready(function () {
       console.log(currentDay)
     $('#currentDay').text(currentDay)
   }
-
-  function clearStorage() {
+  $('#clear-storage').on('click', function(event) {
+    event.preventDefault();
     localStorage.clear()
-  }
+  })
+
 
   // Calls upon the functions to renderuserdata, class time and render the date in the header..
   renderUserData();
