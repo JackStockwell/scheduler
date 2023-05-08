@@ -1,6 +1,19 @@
 $(document).ready(function () {
 
   var timeBlockDiv = $('.time-block')
+  var selectDate = dayjs().format('DD/MM/YY');
+
+  $( "#datepicker" ).datepicker({
+    dateFormat: 'DD, dd M yy',
+    changeMonth: true,
+    changeYear: true,
+    onSelect: function (dateText, inst) {
+      date(dateText);
+      selectDate = $("#datepicker").datepicker('option', 'dateFormat', 'dd/mm/yy')
+      console.log(selectDate)
+    }
+
+  });
 
   // Saves the key and text parsed into it.
   function saveText(key, text) {
@@ -17,7 +30,7 @@ $(document).ready(function () {
     // Grabs the ID from the HTML Element.
     var classID = ($(this).parent().attr('id'));
     // Grabs the day it was saved in the format below.
-    var dayID = dayjs().format('DD/MM/YY');
+    var dayID = selectDate
     // Saved as both class ID with a date seperately. This allows it be called upon using either the ID and the date.
     var userKey = (classID + " " + dayID)
     // Takes the value from the textinput area.
@@ -66,13 +79,23 @@ $(document).ready(function () {
   }
 
   // Gets the current day and renders it in the header.
-  function date() {
-    var currentDay = dayjs().format('dddd, DD of MMM YYYY')
+  function date(day) {
+    var currentDay = ""
+    if (day === null || day === undefined) {
+      currentDay = dayjs().format('dddd, DD of MMM YYYY')
+    } else {
+      currentDay = dayjs(day).format('dddd, DD of MMM YYYY')
+    }
+      console.log(currentDay)
     $('#currentDay').text(currentDay)
+  }
+
+  function clearStorage() {
+    localStorage.clear()
   }
 
   // Calls upon the functions to renderuserdata, class time and render the date in the header..
   renderUserData();
   classTime()
-  date();
+  date()
 });
