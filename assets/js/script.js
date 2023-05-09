@@ -108,7 +108,7 @@ $(document).ready(function () {
   $('#clear-storage').on('click', function(event) {
     event.preventDefault();
     if (confirm("Are you sure you want to remove all locally saved data? (Note: This CANNOT be undone")) {
-      localStorage.clear
+      localStorage.clear()
     } else {
       return;
     }
