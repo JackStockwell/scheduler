@@ -6,6 +6,8 @@ The motivation behind this project was to use 3rd Party APIs in my script such a
 
 I learned a lot about jQuery and API implementation. I have also learned how API implementation can help streamline processes and save you time as others have 'done the work for you' saving you from having to solve these problems yourself. 
 
+I had a large problem with the difference between Dayjs and the date picker dates, as the datepicker dates are not Dayjs objects converting between them was more of challenge however it was successful in the end.
+
 ## Screenshots
 
 ![GIF of the website in use, displaying text being saved and refreshed.](./assets/images/screenshots/screencap.gif)
@@ -33,6 +35,5 @@ To use the scheduler, head to [here](https://jackstockwell.github.io/scheduler/)
 
 
 ## Future Development
-
 - Modal to confirm the save of data.
 - Alert to say that your data was saved.
